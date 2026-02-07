@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TaskDispatcherApi.Data;
 using TaskDispatcherApi.Models;
+using TaskDispatcherApi.DTOs;
 
 namespace TaskDispatcherApi.Controllers;
 
@@ -22,8 +23,15 @@ public class TasksController : ControllerBase
             .ToListAsync();
     }
     [HttpPost]
-    public async Task<IActionResult> Creat(TaskItem newTask)
+    public async Task<IActionResult> Create(TaskCreatDto taskDto)
     {
+        var newTask = new TaskItem
+        {
+            Title = taskDto.Title,
+            Description = taskDto.Description,
+            Priority = taskDto.Priority,
+            IsDispatched = false
+        };
         _context.Tasks.Add(newTask);
         await _context.SaveChangesAsync();
         return CreatedAtAction(nameof(GetAll), new { id = newTask.Id }, newTask);
