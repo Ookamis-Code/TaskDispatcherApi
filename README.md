@@ -10,6 +10,7 @@ A modern **ASP.NET Core 9 Web API** designed for high-performance task dispatchi
 - **Asynchronous Pipeline:** Uses `async/await` and `Task<T>` patterns to ensure non-blocking database I/O.
 - **Modern API Documentation:** Integrated with **Scalar** and **OpenAPI 9** for real-time endpoint testing and documentation.
 - **Dependency Injection:** Leverages the .NET built-in DI container for `AppDbContext` lifecycle management.
+- **Traffic Control & Security:** Implemented custom **Rate Limiting Middleware** (Fixed Window) to prevent resource exhaustion and protect against automated flooding/DoS attacks. 
 
 ## How to Run
 1. Ensure [.NET 9 SDK](https://dotnet.microsoft.com) is installed.
