@@ -3,9 +3,11 @@ using Microsoft.EntityFrameworkCore;
 using TaskDispatcherApi.Data;
 using TaskDispatcherApi.Models;
 using TaskDispatcherApi.DTOs;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace TaskDispatcherApi.Controllers;
 
+[EnableRateLimiting("fixed")]
 [ApiController]
 [Route("api/[controller]")]
 public class TasksController : ControllerBase
