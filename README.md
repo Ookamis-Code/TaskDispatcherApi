@@ -12,6 +12,12 @@ A modern **ASP.NET Core 9 Web API** designed for high-performance task dispatchi
 - **Dependency Injection:** Leverages the .NET built-in DI container for `AppDbContext` lifecycle management.
 - **Traffic Control & Security:** Implemented custom **Rate Limiting Middleware** (Fixed Window) to prevent resource exhaustion and protect against automated flooding/DoS attacks. 
 
+- ## Architectural Decisions
+- **Data Transfer Objects (DTOs):** Implemented to decouple the internal database schema from the public API contract, preventing over-posting attacks and ensuring system scalability.
+- **Model Validation:** Utilized Data Annotations (`[Required]`, `[RegularExpression]`) to enforce business rules at the "Gatekeeper" (API) level, reducing unnecessary database hits.
+- **Async/Await Pattern:** Every endpoint is non-blocking to ensure high availability under concurrent loads.
+
+
 ## How to Run
 1. Ensure [.NET 9 SDK](https://dotnet.microsoft.com) is installed.
 2. `dotnet build`
