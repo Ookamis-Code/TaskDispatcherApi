@@ -4,11 +4,13 @@ using Scalar.AspNetCore;
 using TaskDispatcherApi.Data;
 using Microsoft.AspNetCore.RateLimiting;
 using System.Threading.RateLimiting;
+using TaskDispatcherApi.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+builder.Services.AddSignalR();
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
@@ -43,6 +45,7 @@ if (app.Environment.IsDevelopment())
 }
 
 
+app.MapHub<TaskHub>("/taskhub");
 
 //app.UseHttpsRedirection();
 app.UseRateLimiter();

@@ -4,6 +4,8 @@ using TaskDispatcherApi.Data;
 using TaskDispatcherApi.Models;
 using TaskDispatcherApi.DTOs;
 using Microsoft.AspNetCore.RateLimiting;
+using TaskDispatcherApi.Hubs;
+using Microsoft.AspNetCore.SignalR;
 
 namespace TaskDispatcherApi.Controllers;
 
@@ -13,7 +15,8 @@ namespace TaskDispatcherApi.Controllers;
 public class TasksController : ControllerBase
 {
     private readonly AppDbContext _context;
-    public TasksController(AppDbContext context) => _context = context;
+    private readonly IHubContext<TaskHub> hub_Context;
+    public TasksController(AppDbContext context, IHubContext<TaskHub> hubContext) => (_context, hub_Context) = (context, hubContext);
     [HttpGet]
     public async Task<ActionResult<List<TaskItem>>> GetAll() =>
         await _context.Tasks.OrderByDescending(t => t.Priority == "High").ToListAsync();
@@ -36,6 +39,7 @@ public class TasksController : ControllerBase
         };
         _context.Tasks.Add(newTask);
         await _context.SaveChangesAsync();
+        await hub_Context.Clients.All.SendAsync("Notification Received", $"New task created: {newTask.Title}");
         return CreatedAtAction(nameof(GetAll), new { id = newTask.Id }, newTask);
     }
     [HttpDelete("{id}")]
