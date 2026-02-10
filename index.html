@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Pulse: Task Dispatcher Monitor</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.0/signalr.min.js"></script>
+</head>
+<body>
+    <h1>System Status Monitor</h1>
+    <ul id="statusList"></ul>
+    <script>
+        // connect to C# hub
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl("http://localhost:5066/taskhub")
+            .withAutomaticReconnect()
+            .build();
+
+        // listen for notifications
+        connection.on("notification_Received", (message) => {
+            console.log("Notification Received:", message); //debug
+            const li = document.createElement("li");
+            li.textContent = `${new Date().toLocaleTimeString()}: ${message}`;
+            document.getElementById("statusList").appendChild(li);
+        });
+        // start the connection
+        connection.start().catch(err => console.error(err.toString()));
+    </script>
+</body>
+</html>

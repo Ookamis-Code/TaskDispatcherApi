@@ -16,6 +16,17 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 builder.Services.AddDbContext<AppDbContext>(Options => Options.UseSqlite("Data Source=tasks.db"));
 
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        policy.WithOrigins("http://127.0.0.1:5501")
+              .AllowAnyHeader()
+              .AllowAnyMethod()
+              .AllowCredentials();
+    });
+});
+
 builder.Services.AddRateLimiter(options =>
 {
     options.AddFixedWindowLimiter(policyName: "fixed", options =>
@@ -44,7 +55,8 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-
+app.UseRouting();
+app.UseCors();
 app.MapHub<TaskHub>("/taskhub");
 
 //app.UseHttpsRedirection();

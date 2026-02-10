@@ -11,6 +11,10 @@ A modern **ASP.NET Core 9 Web API** designed for high-performance task dispatchi
 - **Modern API Documentation:** Integrated with **Scalar** and **OpenAPI 9** for real-time endpoint testing and documentation.
 - **Dependency Injection:** Leverages the .NET built-in DI container for `AppDbContext` lifecycle management.
 - **Traffic Control & Security:** Implemented custom **Rate Limiting Middleware** (Fixed Window) to prevent resource exhaustion and protect against automated flooding/DoS attacks. 
+## Real-Time Monitoring (SignalR)
+- **The Pulse Dashboard:** Implemented a real-time system monitor using **ASP.NET Core SignalR**.
+- **Push Architecture:** Instead of traditional polling, the API "broadcasts" new ingestion events from the **FileWatchdog** directly to connected web clients via WebSockets.
+- **CORS Management:** Configured secure **Cross-Origin Resource Sharing** policies to allow the decoupled frontend to communicate with the backend hub.
 
 - ## Architectural Decisions
 - **Data Transfer Objects (DTOs):** Implemented to decouple the internal database schema from the public API contract, preventing over-posting attacks and ensuring system scalability.

@@ -39,7 +39,7 @@ public class TasksController : ControllerBase
         };
         _context.Tasks.Add(newTask);
         await _context.SaveChangesAsync();
-        await hub_Context.Clients.All.SendAsync("Notification Received", $"New task created: {newTask.Title}");
+        await hub_Context.Clients.All.SendAsync("notification_Received", $"New task created: {newTask.Title}");
         return CreatedAtAction(nameof(GetAll), new { id = newTask.Id }, newTask);
     }
     [HttpDelete("{id}")]
